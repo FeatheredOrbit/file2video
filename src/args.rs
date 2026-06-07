@@ -3,15 +3,29 @@ use std::str::FromStr;
 use clap::{Parser, ValueEnum};
 
 #[derive(ValueEnum, Clone, Debug)]
-pub enum SampleType {
+pub enum Endianness {
+    Little,
+    Big
+}
+
+#[derive(ValueEnum, Clone, Debug)]
+pub enum SampleFormat {
     U8,
     U16,
+    U24,
     U32,
+    U40,
+    U48,
+    U56,
     U64,
 
     I8,
     I16,
+    I24,
     I32,
+    I40,
+    I48,
+    I56,
     I64,
 
     F32,
@@ -31,7 +45,10 @@ pub struct Args {
     pub input_file: PathBuf,
 
     #[arg(long, default_value = "u8")]
-    pub sample_type: SampleType,
+    pub sample_format: SampleFormat,
+
+    #[arg(long, default_value = "little")]
+    pub endianness: Endianness,
 
     #[arg(long, default_value_t = 44100)]
     pub sample_rate: u32,

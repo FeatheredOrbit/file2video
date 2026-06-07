@@ -1,15 +1,13 @@
 use clap::Parser;
 
 mod args;
+mod process;
+
 use args::Args;
 
 fn main() {
     let args = Args::parse();
 
-    println!("{}", args.input_file.exists());
+    process::process(args);
 
-    println!("{:?}", args.input_file);
-    println!("{:?}", args.sample_type);
-    println!("{:?}", args.sample_rate);
-    println!("{:?}", args.channels);
 }
