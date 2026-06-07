@@ -1,9 +1,8 @@
 [package]
-name = "file-to-video"
+name = "file2video"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 clap = { version = "4.6.1", features = ["derive"] }
 dasp_sample = "0.11.0"
-ffmpeg-next = "8.1.0"
