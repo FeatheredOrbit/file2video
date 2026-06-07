@@ -1,0 +1,84 @@
+use std::path::PathBuf;
+use std::str::FromStr;
+use clap::{Parser, ValueEnum};
+
+#[derive(ValueEnum, Clone, Debug)]
+pub enum SampleType {
+    U8,
+    U16,
+    U32,
+    U64,
+
+    I8,
+    I16,
+    I32,
+    I64,
+
+    F32,
+    F64
+}
+
+#[derive(Parser, Debug)]
+#[command(
+    name="file2video",
+    author="Feathered Orbit",
+    version="1.0",
+    about="Converts any file to a video by interpreting its data as audio and video frames"
+)]
+pub struct Args {
+
+    #[arg(required = true, value_parser = validate_input_path)]
+    pub input_file: PathBuf,
+
+    #[arg(long, default_value = "u8")]
+    pub sample_type: SampleType,
+
+    #[arg(long, default_value_t = 44100)]
+    pub sample_rate: u32,
+
+    #[arg(long, default_value_t = 2, value_parser = clap::value_parser!(u8).range(1..=2))]
+    pub channels: u8
+}
+
+// Validates the given path by making sure it's valid, exists and isn't a folder.
+// Also returns the last valid path if the given one is invalid.
+fn validate_input_path(s: &str) -> Result<PathBuf, String> {
+
+    let path = PathBuf::from_str(s)
+        .map_err(|_| { "Not a path." })?;
+
+    let abs_path = std::path::absolute(path)
+        .map_err(|_| { "Failed to resolve absolute path." })?;
+
+    if !abs_path.exists() {
+        let mut current_path = PathBuf::new();
+
+        for component in abs_path.components() {
+
+            let last_valid_path = current_path.clone();
+
+            current_path.push(component);
+
+            if !current_path.exists() {
+
+                if last_valid_path.as_os_str().is_empty() {
+                    return Err(
+                        "Path doesn't exist. Root is invalid.".to_string()
+                    );
+                }
+
+                return Err(
+                    format!("Path doesn't exist. Last valid path: `{}`", last_valid_path.display())
+                );
+
+            }
+
+        }
+    }
+
+    if abs_path.is_dir() {
+        return Err(format!("The path {s} leads to a directory and not a file."));
+    }
+
+    Ok(abs_path)
+}
