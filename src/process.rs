@@ -1,13 +1,12 @@
 use clap::CommandFactory;
 use dasp_sample::Sample;
-use dasp_sample::conv::u64;
 use crate::args::{Args, Endianness, SampleFormat};
 
 pub fn process(args: Args) {
 
     let bytes = to_bytes(&args);
 
-    to_audio(&args, &bytes);
+    let audio_bytes = to_audio(&args, &bytes);
 
     // IG it reduces memory a bit since this isn't needed anymore.
     drop(bytes);
