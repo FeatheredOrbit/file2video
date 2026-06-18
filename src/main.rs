@@ -1,31 +1,17 @@
-use clap::{CommandFactory, Parser};
+use clap::Parser;
 
 mod args;
 mod process;
+mod audio;
+mod frames;
 
 use args::Args;
 
 fn main() {
-    if !ffmpeg_is_installed() {
-
-        Args::command()
-            .error(clap::error::ErrorKind::Io, "ffmpeg is not installed on the device.")
-            .exit()
-
-    }
+    ffmpeg_sidecar::download::auto_download().unwrap();
 
     let args = Args::parse();
 
     process::process(args);
-
-}
-
-fn ffmpeg_is_installed() -> bool {
-
-    std::process::Command::new("ffmpeg")
-        .arg("-version")
-        .output()
-        .map(|output| output.status.success())
-        .unwrap_or(false)
 
 }

@@ -32,6 +32,11 @@ pub enum SampleFormat {
     F64
 }
 
+#[derive(ValueEnum, Clone, Debug)]
+pub enum ColorFormat {
+    Rgb
+}
+
 #[derive(Parser, Debug)]
 #[command(
     name="file2video",
@@ -54,7 +59,10 @@ pub struct Args {
     pub sample_rate: u32,
 
     #[arg(long, default_value_t = 2, value_parser = clap::value_parser!(u8).range(1..=2))]
-    pub channels: u8
+    pub channels: u8,
+
+    #[arg(long, default_value="rgb")]
+    pub color_format: ColorFormat
 }
 
 // Validates the given path by making sure it's valid, exists and isn't a folder.
