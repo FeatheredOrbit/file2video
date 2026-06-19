@@ -62,7 +62,10 @@ pub struct Args {
     pub channels: u8,
 
     #[arg(long, default_value="rgb")]
-    pub color_format: ColorFormat
+    pub color_format: ColorFormat,
+
+    #[arg(long, default_value="256x144", value_parser = validate_resolution)]
+    pub resolution: (u32, u32)
 }
 
 // Validates the given path by making sure it's valid, exists and isn't a folder.
@@ -106,4 +109,14 @@ fn validate_input_path(s: &str) -> Result<PathBuf, String> {
     }
 
     Ok(abs_path)
+}
+
+fn validate_resolution(s: &str) -> Result<(u32, u32), String> {
+    let resolution = s.split_once(&['x', 'X'][..]).ok_or("Resolution must be in format widthxheight")?;
+
+    let width = u32::from_str(resolution.0).map_err(|_| "Width and height must be integer values")?;
+    let height = u32::from_str(resolution.0).map_err(|_| "Width and height must be integer values")?;
+
+    Ok((width, height))
+
 }
