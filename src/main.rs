@@ -3,7 +3,8 @@ use clap::Parser;
 mod args;
 mod process;
 mod audio;
-mod frames;
+mod colors;
+mod video;
 
 use args::Args;
 

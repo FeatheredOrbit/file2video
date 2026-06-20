@@ -438,21 +438,27 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                 let byte_3 = chunk.get(2).unwrap_or(&0).clone();
                 let byte_4 = chunk.get(3).unwrap_or(&0).clone();
 
-                let mut as_u32 = match args.endianness {
+                let mut as_f32 = match args.endianness {
                     Endianness::Big => {
-                        u32::from_be_bytes([byte_1, byte_2, byte_3, byte_4])
+                        f32::from_be_bytes([byte_1, byte_2, byte_3, byte_4])
                     },
                     Endianness::Little => {
-                        u32::from_le_bytes([byte_1, byte_2, byte_3, byte_4])
+                        f32::from_le_bytes([byte_1, byte_2, byte_3, byte_4])
                     }
                 };
 
-                // Apparently NaN happens when all the bits of the exponent are 1, so technically
-                // just zeroing the least significant bit of the exponent will remove the NaN issue
-                // with the least loss.
-                as_u32 &= 0b1_11111110_11111111111111111111111;
+                if as_f32.is_infinite() | as_f32.is_nan() {
+                    let mut as_u32 = as_f32.to_bits();
 
-                f32::from_bits(as_u32)
+                    // Apparently NaN happens when all the bits of the exponent are 1, so technically
+                    // just zeroing the least significant bit of the exponent will remove the NaN issue
+                    // with the least loss.
+                    as_u32 &= 0b1_11111110_11111111111111111111111;
+
+                    as_f32 = f32::from_bits(as_u32);
+                }
+
+                as_f32
             }).collect()
         }
 
@@ -467,9 +473,9 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                 let byte_7 = chunk.get(6).unwrap_or(&0).clone();
                 let byte_8 = chunk.get(7).unwrap_or(&0).clone();
 
-                let mut as_u64 = match args.endianness {
+                let mut as_f64 = match args.endianness {
                     Endianness::Big => {
-                        u64::from_be_bytes([
+                        f64::from_be_bytes([
                             byte_1,
                             byte_2,
                             byte_3,
@@ -481,7 +487,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                         ])
                     },
                     Endianness::Little => {
-                        u64::from_le_bytes([
+                        f64::from_le_bytes([
                             byte_1,
                             byte_2,
                             byte_3,
@@ -494,14 +500,18 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                // Apparently NaN happens when all the bits of the exponent are 1, so technically
-                // just zeroing the least significant bit of the exponent will remove the NaN issue
-                // with the least loss.
-                as_u64 &= 0b1_11111111110_1111111111111111111111111111111111111111111111111111;
+                if as_f64.is_infinite() | as_f64.is_nan() {
+                    let mut as_u64 = as_f64.to_bits();
 
-                let result = f64::from_bits(as_u64);
+                    // Apparently NaN happens when all the bits of the exponent are 1, so technically
+                    // just zeroing the least significant bit of the exponent will remove the NaN issue
+                    // with the least loss.
+                    as_u64 &= 0b1_11111111110_1111111111111111111111111111111111111111111111111111;
 
-                f32::from_sample(result)
+                    as_f64 = f64::from_bits(as_u64);
+                }
+
+                f32::from_sample(as_f64)
             }).collect()
         }
 
