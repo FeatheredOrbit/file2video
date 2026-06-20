@@ -3,10 +3,11 @@ use dasp_sample::Sample;
 
 pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
 
-    let resampled_bytes: Vec<f32> = match args.sample_format {
+    // Bitcast to chosen format and then normalize to f32, idk if even half of these are actual formats used in music but why not use them anyway.
+    let mut resampled_bytes: Vec<f32> = match args.sample_format {
 
         SampleFormat::U8 => {
-            return bytes.clone();
+            bytes.iter().map(|&byte| { f32::from_sample(u8::from_be_bytes([byte])) }).collect()
         }
 
         SampleFormat::U16 => {
@@ -505,6 +506,12 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
         }
 
     };
+
+    // Pad the last frame so that there's enough values for all channels.
+    let remainder_frames = resampled_bytes.len() % args.channels as usize;
+    let padding = args.channels as usize - remainder_frames;
+
+    resampled_bytes.resize(resampled_bytes.len() + padding, 0.0);
 
     resampled_bytes.iter().flat_map(|&f| f.to_le_bytes()).collect()
 }

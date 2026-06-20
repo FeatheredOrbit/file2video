@@ -47,7 +47,7 @@ fn to_video(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Result<(
 
     // Unwrapping file_name() should be fine as files can't not have names (at least Google says so), 
     // and it's already validated at the start if the path leads to a file. 
-    let output_file_name = format!("video_version_of_{}", args.input_file.file_name().unwrap().to_string_lossy());
+    let output_file_name = format!("video_version_of_{}.mp4", args.input_file.file_name().unwrap().to_string_lossy());
 
     let total_samples = (audio_bytes.len() / size_of::<f32>()) as f64;
     let audio_duration = total_samples / args.sample_rate as f64 / args.channels as f64;
@@ -77,12 +77,10 @@ fn to_video(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Result<(
     command.overwrite();
     command.output(parent_folder.join(output_file_name).as_os_str().to_string_lossy());
 
-    let mut child = command.spawn()?;
+    // Execute da command.
+    command.spawn()?.wait()?;
 
-    for event in child.iter().unwrap().filter_errors() {
-        println!("{}", event);
-    }
-
+    // Remove the temporary files and then exit.
     remove_file(temp_audio_file_path)?;
     remove_file(temp_pixel_file_path)?;
 
