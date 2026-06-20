@@ -1,7 +1,7 @@
 use crate::args::{Args, Endianness, SampleFormat};
 use dasp_sample::Sample;
 
-pub fn to_audio(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
+pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
 
     let resampled_bytes: Vec<f32> = match args.sample_format {
 

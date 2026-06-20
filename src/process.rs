@@ -1,14 +1,14 @@
 use std::{env::temp_dir, fs::File, io::Write};
 
 use clap::CommandFactory;
-use crate::{args::{Args, ColorFormat}, audio::to_audio, frames::to_frames};
+use crate::{args::Args, audio, frames};
 
 pub fn process(args: Args) {
 
     let bytes = to_bytes(&args);
 
-    let audio_bytes = to_audio(&args, &bytes);
-    let color_bytes = to_frames(&args, &bytes);
+    let audio_bytes = audio::process(&args, &bytes);
+    let color_bytes = frames::process(&args, &bytes);
 
     to_video(&args, color_bytes, audio_bytes);
 

@@ -113,10 +113,10 @@ fn validate_input_path(s: &str) -> Result<PathBuf, String> {
 
 // Validates the resolution by splitting into width and height and then coverting to u32 and blablabla blebleble.
 fn validate_resolution(s: &str) -> Result<(u32, u32), String> {
-    let resolution = s.split_once(&['x', 'X'][..]).ok_or("Resolution must be in format widthxheight")?;
+    let resolution = s.split_once(&['x', 'X'][..]).ok_or("Resolution must be in format widthxheight, where width and height are integer values.")?;
 
-    let width = u32::from_str(resolution.0).map_err(|_| "Width and height must be integer values")?;
-    let height = u32::from_str(resolution.1).map_err(|_| "Width and height must be integer values")?;
+    let width = u32::from_str(resolution.0).map_err(|_| "Resolution must be in format widthxheight, where width and height are integer values.")?;
+    let height = u32::from_str(resolution.1).map_err(|_| "Resolution must be in format widthxheight, where width and height are integer values.")?;
 
     Ok((width, height))
 
