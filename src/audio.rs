@@ -3,11 +3,11 @@ use dasp_sample::Sample;
 
 pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
 
-    // Bitcast to chosen format and then normalize to f32, idk if even half of these are actual formats used in music but why not use them anyway.
-    let mut resampled_bytes: Vec<f32> = match args.sample_format {
+    // Bitcast to chosen format and then normalize to f64, idk if even half of these are actual formats used in music but why not use them anyway.
+    let mut resampled_bytes: Vec<f64> = match args.sample_format {
 
         SampleFormat::U8 => {
-            bytes.iter().map(|&byte| { f32::from_sample(u8::from_be_bytes([byte])) }).collect()
+            bytes.iter().map(|&byte| { f64::from_sample(u8::from_be_bytes([byte])) }).collect()
         }
 
         SampleFormat::U16 => {
@@ -26,7 +26,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
 
             }).collect()
 
@@ -47,7 +47,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
 
             }).collect()
         }
@@ -68,7 +68,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -108,7 +108,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -148,7 +148,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -189,7 +189,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
 
         }
@@ -232,12 +232,12 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
         SampleFormat::I8 => {
-            bytes.iter().map(|&byte| { f32::from_sample(i8::from_be_bytes([byte])) }).collect()
+            bytes.iter().map(|&byte| { f64::from_sample(i8::from_be_bytes([byte])) }).collect()
         }
 
         SampleFormat::I16 => {
@@ -250,7 +250,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     Endianness::Little => i16::from_le_bytes([byte_1, byte_2]),
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -265,7 +265,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     Endianness::Little => i32::from_le_bytes([byte_1, byte_2, byte_3, 0]),
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -281,7 +281,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     Endianness::Little => i32::from_le_bytes([byte_1, byte_2, byte_3, byte_4]),
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -316,7 +316,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     ]),
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -352,7 +352,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     ]),
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -389,7 +389,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     ]),
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -427,7 +427,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     ]),
                 };
 
-                f32::from_sample(result)
+                f64::from_sample(result)
             }).collect()
         }
 
@@ -447,7 +447,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                if as_f32.is_infinite() | as_f32.is_nan() {
+                if as_f32.is_infinite() || as_f32.is_nan() {
                     let mut as_u32 = as_f32.to_bits();
 
                     // Apparently NaN happens when all the bits of the exponent are 1, so technically
@@ -458,7 +458,9 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     as_f32 = f32::from_bits(as_u32);
                 }
 
-                as_f32
+                // Normalize into -1 to 1 range.
+                f64::from_sample((as_f32 / f32::MAX * 2.0) - 1.0)
+                
             }).collect()
         }
 
@@ -500,7 +502,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     }
                 };
 
-                if as_f64.is_infinite() | as_f64.is_nan() {
+                if as_f64.is_infinite() || as_f64.is_nan() {
                     let mut as_u64 = as_f64.to_bits();
 
                     // Apparently NaN happens when all the bits of the exponent are 1, so technically
@@ -511,7 +513,8 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
                     as_f64 = f64::from_bits(as_u64);
                 }
 
-                f32::from_sample(as_f64)
+                // Normalize into -1 to 1 range.
+                (as_f64 / f64::MAX * 2.0) - 1.0
             }).collect()
         }
 

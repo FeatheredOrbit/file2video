@@ -38,7 +38,7 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Resul
     command.input(temp_pixel_file_path.as_os_str().to_string_lossy());
 
     // Audio stuff.
-    command.format("f32le");
+    command.format("f64le");
     command.args(["-ac", &args.channels.to_string()]);
     command.args(["-ar", &args.sample_rate.to_string()]);
     command.input(temp_audio_file_path.as_os_str().to_string_lossy());
@@ -50,8 +50,10 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Resul
     command.overwrite();
     command.output(parent_folder.join(output_file_name).as_os_str().to_string_lossy());
 
-    // Execute da command.
-    command.spawn()?.wait()?;
+    
+    for event in command.spawn()?.iter()?.filter_errors() {
+        println!("{:?}", event);
+    }
 
     // Remove the temporary files and then exit.
     remove_file(temp_audio_file_path)?;
