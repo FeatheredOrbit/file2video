@@ -12,6 +12,8 @@ fn main() {
 
     let args = Args::parse();
 
+    println!("{:?}", args.resolution);
+
     process::process(args);
 
 }

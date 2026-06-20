@@ -69,7 +69,7 @@ pub struct Args {
 }
 
 // Validates the given path by making sure it's valid, exists and isn't a folder.
-// Also returns the last valid path if the given one is invalid.
+// Also returns the last valid path if the given one is invalid because I'm so based and UX coded.
 fn validate_input_path(s: &str) -> Result<PathBuf, String> {
 
     let path = PathBuf::from_str(s)
@@ -111,11 +111,12 @@ fn validate_input_path(s: &str) -> Result<PathBuf, String> {
     Ok(abs_path)
 }
 
+// Validates the resolution by splitting into width and height and then coverting to u32 and blablabla blebleble.
 fn validate_resolution(s: &str) -> Result<(u32, u32), String> {
     let resolution = s.split_once(&['x', 'X'][..]).ok_or("Resolution must be in format widthxheight")?;
 
     let width = u32::from_str(resolution.0).map_err(|_| "Width and height must be integer values")?;
-    let height = u32::from_str(resolution.0).map_err(|_| "Width and height must be integer values")?;
+    let height = u32::from_str(resolution.1).map_err(|_| "Width and height must be integer values")?;
 
     Ok((width, height))
 
