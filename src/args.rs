@@ -2,6 +2,7 @@ use std::path::PathBuf;
 use std::str::FromStr;
 use clap::{Parser, ValueEnum};
 
+/// Idk how to spell it.
 #[derive(ValueEnum, Clone, Debug)]
 pub enum Endianness {
     Little,
