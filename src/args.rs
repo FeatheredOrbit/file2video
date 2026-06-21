@@ -124,6 +124,10 @@ fn validate_resolution(s: &str) -> Result<(u32, u32), String> {
     let width = u32::from_str(resolution.0).map_err(|_| "Resolution must be in format widthxheight, where width and height are integer values.")?;
     let height = u32::from_str(resolution.1).map_err(|_| "Resolution must be in format widthxheight, where width and height are integer values.")?;
 
+    if width % 2 != 0 || height % 2 != 0 {
+       return Err("Width and height must be even integers".to_string()); 
+    }
+
     Ok((width, height))
 
 }
