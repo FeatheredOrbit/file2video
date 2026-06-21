@@ -35,7 +35,9 @@ pub enum SampleFormat {
 
 #[derive(ValueEnum, Clone, Debug)]
 pub enum ColorFormat {
-    Rgb
+    Rgb,
+    Hsv,
+    Hsl
 }
 
 #[derive(Parser, Debug)]

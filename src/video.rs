@@ -25,6 +25,7 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Resul
     let total_samples = (audio_bytes.len() / size_of::<f64>()) as f64;
     let audio_duration = total_samples / NORMALIZED_SAMPLE_RATE as f64 / args.channels as f64;
 
+    // Calculate the appropriate fps so that video and audio finish together.
     let number_of_frames = pixel_bytes.len() as f64 / (args.resolution.0 * args.resolution.1 * 3) as f64;
     let fps = number_of_frames / audio_duration;
 
