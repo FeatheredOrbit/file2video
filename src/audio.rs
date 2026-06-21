@@ -20,7 +20,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_1 = chunk.get(0).unwrap_or(&0).clone();
                 let byte_2 = chunk.get(1).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => {
                         u16::from_be_bytes([byte_1, byte_2])
                     },
@@ -41,7 +41,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_2 = chunk.get(1).unwrap_or(&0).clone();
                 let byte_3 = chunk.get(2).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => {
                         u32::from_be_bytes([0, byte_1, byte_2, byte_3])
                     },
@@ -62,7 +62,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_3 = chunk.get(2).unwrap_or(&0).clone();
                 let byte_4 = chunk.get(3).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => {
                         u32::from_be_bytes([byte_1, byte_2, byte_3, byte_4])
                     },
@@ -84,7 +84,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_4 = chunk.get(3).unwrap_or(&0).clone();
                 let byte_5 = chunk.get(4).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => {
                         u64::from_be_bytes([
                             0,
@@ -124,7 +124,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_5 = chunk.get(4).unwrap_or(&0).clone();
                 let byte_6 = chunk.get(5).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => {
                         u64::from_be_bytes([
                             0,
@@ -165,7 +165,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_6 = chunk.get(5).unwrap_or(&0).clone();
                 let byte_7 = chunk.get(6).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => {
                         u64::from_be_bytes([
                             0,
@@ -208,7 +208,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_7 = chunk.get(6).unwrap_or(&0).clone();
                 let byte_8 = chunk.get(7).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => {
                         u64::from_be_bytes([
                             byte_1,
@@ -248,7 +248,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_1 = chunk.get(0).unwrap_or(&0).clone();
                 let byte_2 = chunk.get(1).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => i16::from_be_bytes([byte_1, byte_2]),
                     Endianness::Little => i16::from_le_bytes([byte_1, byte_2]),
                 };
@@ -263,7 +263,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_2 = chunk.get(1).unwrap_or(&0).clone();
                 let byte_3 = chunk.get(2).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => i32::from_be_bytes([0, byte_1, byte_2, byte_3]),
                     Endianness::Little => i32::from_le_bytes([0, byte_1, byte_2, byte_3]),
                 };
@@ -279,7 +279,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_3 = chunk.get(2).unwrap_or(&0).clone();
                 let byte_4 = chunk.get(3).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => i32::from_be_bytes([byte_1, byte_2, byte_3, byte_4]),
                     Endianness::Little => i32::from_le_bytes([byte_1, byte_2, byte_3, byte_4]),
                 };
@@ -296,7 +296,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_4 = chunk.get(3).unwrap_or(&0).clone();
                 let byte_5 = chunk.get(4).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => i64::from_be_bytes([
                         0,
                         0,
@@ -332,7 +332,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_5 = chunk.get(4).unwrap_or(&0).clone();
                 let byte_6 = chunk.get(5).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => i64::from_be_bytes([
                         0,
                         0,
@@ -369,7 +369,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_6 = chunk.get(5).unwrap_or(&0).clone();
                 let byte_7 = chunk.get(6).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => i64::from_be_bytes([
                         0,
                         byte_1,
@@ -407,7 +407,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_7 = chunk.get(6).unwrap_or(&0).clone();
                 let byte_8 = chunk.get(7).unwrap_or(&0).clone();
 
-                let result = match args.endianness {
+                let result = match args.endianness_audio {
                     Endianness::Big => i64::from_be_bytes([
                         byte_1,
                         byte_2,
@@ -441,7 +441,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_3 = chunk.get(2).unwrap_or(&0).clone();
                 let byte_4 = chunk.get(3).unwrap_or(&0).clone();
 
-                let mut as_f32 = match args.endianness {
+                let mut as_f32 = match args.endianness_audio {
                     Endianness::Big => {
                         f32::from_be_bytes([byte_1, byte_2, byte_3, byte_4])
                     },
@@ -478,7 +478,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_7 = chunk.get(6).unwrap_or(&0).clone();
                 let byte_8 = chunk.get(7).unwrap_or(&0).clone();
 
-                let mut as_f64 = match args.endianness {
+                let mut as_f64 = match args.endianness_audio {
                     Endianness::Big => {
                         f64::from_be_bytes([
                             byte_1,
@@ -522,6 +522,9 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
         }
 
     };
+
+    // Reverse the audio.
+    if args.reverse_audio { formatted_bytes.reverse(); }
 
     // Pad the last frame so that there's enough values for all channels.
     let remainder_frames = formatted_bytes.len() % args.channels as usize;

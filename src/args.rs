@@ -50,22 +50,25 @@ pub struct Args {
     #[arg(required = true, value_parser = validate_input_path)]
     pub input_file: PathBuf,
 
-    #[arg(long, default_value = "u8")]
+    #[arg(long, aliases = ["s:f", "sf"], default_value = "u8")]
     pub sample_format: SampleFormat,
 
-    #[arg(long, default_value = "little")]
-    pub endianness: Endianness,
+    #[arg(long, aliases = ["e:a", "ea"], default_value = "little")]
+    pub endianness_audio: Endianness,
 
-    #[arg(long, default_value_t = 44100)]
+    #[arg(long, aliases = ["r:a", "ra"])]
+    pub reverse_audio: bool,
+
+    #[arg(long, aliases = ["s:r", "sr"], default_value_t = 44100)]
     pub sample_rate: u32,
 
-    #[arg(long, default_value_t = 2, value_parser = clap::value_parser!(u8).range(1..=8))]
+    #[arg(long, aliases = ["ch"], default_value_t = 2, value_parser = clap::value_parser!(u8).range(1..=8))]
     pub channels: u8,
 
-    #[arg(long, default_value="rgb")]
+    #[arg(long, aliases = ["c:f", "cf"], default_value="rgb")]
     pub color_format: ColorFormat,
 
-    #[arg(long, default_value="256x144", value_parser = validate_resolution)]
+    #[arg(long, aliases = ["res"], default_value="256x144", value_parser = validate_resolution)]
     pub resolution: (u32, u32)
 }
 
