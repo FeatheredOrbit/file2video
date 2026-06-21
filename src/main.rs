@@ -10,7 +10,9 @@ mod constants;
 use args::Args;
 
 fn main() {
-    ffmpeg_sidecar::download::auto_download().unwrap();
+    if let Err(e) = ffmpeg_sidecar::download::auto_download() {
+
+    }
 
     let args = Args::parse();
 

@@ -43,10 +43,10 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
 
                 let result = match args.endianness {
                     Endianness::Big => {
-                        u32::from_be_bytes([byte_1, byte_2, byte_3, 0])
+                        u32::from_be_bytes([0, byte_1, byte_2, byte_3])
                     },
                     Endianness::Little => {
-                        u32::from_le_bytes([byte_1, byte_2, byte_3, 0])
+                        u32::from_le_bytes([0, byte_1, byte_2, byte_3])
                     }
                 };
 
@@ -87,26 +87,26 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let result = match args.endianness {
                     Endianness::Big => {
                         u64::from_be_bytes([
+                            0,
+                            0,
+                            0,
                             byte_1,
                             byte_2,
                             byte_3,
                             byte_4,
-                            byte_5,
-                            0,
-                            0,
-                            0
+                            byte_5
                         ])
                     },
                     Endianness::Little => {
                         u64::from_le_bytes([
+                            0,
+                            0,
+                            0,
                             byte_1,
                             byte_2,
                             byte_3,
                             byte_4,
                             byte_5,
-                            0,
-                            0,
-                            0
                         ])
                     }
                 };
@@ -127,26 +127,26 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let result = match args.endianness {
                     Endianness::Big => {
                         u64::from_be_bytes([
+                            0,
+                            0,
                             byte_1,
                             byte_2,
                             byte_3,
                             byte_4,
                             byte_5,
-                            byte_6,
-                            0,
-                            0
+                            byte_6
                         ])
                     },
                     Endianness::Little => {
                         u64::from_le_bytes([
+                            0,
+                            0,
                             byte_1,
                             byte_2,
                             byte_3,
                             byte_4,
                             byte_5,
-                            byte_6,
-                            0,
-                            0
+                            byte_6
                         ])
                     }
                 };
@@ -168,26 +168,26 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let result = match args.endianness {
                     Endianness::Big => {
                         u64::from_be_bytes([
+                            0,
                             byte_1,
                             byte_2,
                             byte_3,
                             byte_4,
                             byte_5,
                             byte_6,
-                            byte_7,
-                            0
+                            byte_7
                         ])
                     },
                     Endianness::Little => {
                         u64::from_le_bytes([
+                            0,
                             byte_1,
                             byte_2,
                             byte_3,
                             byte_4,
                             byte_5,
                             byte_6,
-                            byte_7,
-                            0
+                            byte_7
                         ])
                     }
                 };
@@ -264,8 +264,8 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                 let byte_3 = chunk.get(2).unwrap_or(&0).clone();
 
                 let result = match args.endianness {
-                    Endianness::Big => i32::from_be_bytes([byte_1, byte_2, byte_3, 0]),
-                    Endianness::Little => i32::from_le_bytes([byte_1, byte_2, byte_3, 0]),
+                    Endianness::Big => i32::from_be_bytes([0, byte_1, byte_2, byte_3]),
+                    Endianness::Little => i32::from_le_bytes([0, byte_1, byte_2, byte_3]),
                 };
 
                 f64::from_sample(result)
@@ -298,24 +298,24 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
 
                 let result = match args.endianness {
                     Endianness::Big => i64::from_be_bytes([
+                        0,
+                        0,
+                        0,
                         byte_1,
                         byte_2,
                         byte_3,
                         byte_4,
-                        byte_5,
-                        0,
-                        0,
-                        0,
+                        byte_5
                     ]),
                     Endianness::Little => i64::from_le_bytes([
+                        0,
+                        0,
+                        0,
                         byte_1,
                         byte_2,
                         byte_3,
                         byte_4,
                         byte_5,
-                        0,
-                        0,
-                        0,
                     ]),
                 };
 
@@ -334,24 +334,24 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
 
                 let result = match args.endianness {
                     Endianness::Big => i64::from_be_bytes([
+                        0,
+                        0,
                         byte_1,
                         byte_2,
                         byte_3,
                         byte_4,
                         byte_5,
-                        byte_6,
-                        0,
-                        0,
+                        byte_6
                     ]),
                     Endianness::Little => i64::from_le_bytes([
+                        0,
+                        0,
                         byte_1,
                         byte_2,
                         byte_3,
                         byte_4,
                         byte_5,
-                        byte_6,
-                        0,
-                        0,
+                        byte_6
                     ]),
                 };
 
@@ -371,16 +371,17 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
 
                 let result = match args.endianness {
                     Endianness::Big => i64::from_be_bytes([
+                        0,
                         byte_1,
                         byte_2,
                         byte_3,
                         byte_4,
                         byte_5,
                         byte_6,
-                        byte_7,
-                        0,
+                        byte_7
                     ]),
                     Endianness::Little => i64::from_le_bytes([
+                        0,
                         byte_1,
                         byte_2,
                         byte_3,
@@ -388,7 +389,6 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                         byte_5,
                         byte_6,
                         byte_7,
-                        0,
                     ]),
                 };
 
@@ -461,7 +461,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                     as_f32 = f32::from_bits(as_u32);
                 }
 
-                // Normalize into -1 to 1 range.
+                // Normalize into -1 to 1 range because otherwise ffmpeg rips you to shreds.
                 f64::from_sample((as_f32 / f32::MAX * 2.0) - 1.0)
                 
             }).collect()
@@ -516,7 +516,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
                     as_f64 = f64::from_bits(as_u64);
                 }
 
-                // Normalize into -1 to 1 range.
+                // Normalize into -1 to 1 range because otherwise ffmpeg rips you to shreds.
                 (as_f64 / f64::MAX * 2.0) - 1.0
             }).collect()
         }

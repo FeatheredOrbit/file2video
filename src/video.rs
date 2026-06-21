@@ -23,7 +23,7 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Resul
     let output_file_name = format!("video_version_of_{}.mp4", args.input_file.file_name().unwrap().to_string_lossy());
 
     let total_samples = (audio_bytes.len() / size_of::<f64>()) as f64;
-    let audio_duration = total_samples / args.sample_rate as f64 / args.channels as f64;
+    let audio_duration = total_samples / NORMALIZED_SAMPLE_RATE as f64 / args.channels as f64;
 
     let number_of_frames = pixel_bytes.len() as f64 / (args.resolution.0 * args.resolution.1 * 3) as f64;
     let fps = number_of_frames / audio_duration;
