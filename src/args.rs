@@ -37,7 +37,9 @@ pub enum SampleFormat {
 pub enum ColorFormat {
     Rgb,
     Hsv,
-    Hsl
+    Hsl,
+    Yuv,
+    Ycbcr
 }
 
 #[derive(Parser, Debug)]
@@ -55,27 +57,30 @@ pub struct Args {
     #[arg(long, aliases = ["s:f", "sf"], default_value = "u8")]
     pub sample_format: SampleFormat,
 
-    #[arg(long, aliases = ["e:a", "ea"], default_value = "little")]
-    pub endianness_audio: Endianness,
-
-    #[arg(long, aliases = ["r:a", "ra"])]
-    pub reverse_audio: bool,
-
     #[arg(long, aliases = ["s:r", "sr"], default_value_t = 44100)]
     pub sample_rate: u32,
 
     #[arg(long, aliases = ["ch"], default_value_t = 2, value_parser = clap::value_parser!(u8).range(1..=8))]
     pub channels: u8,
 
+    #[arg(long, aliases = ["e:a", "ea"], default_value = "little")]
+    pub endianness_audio: Endianness,
+
+    #[arg(long, aliases = ["r:a", "ra"])]
+    pub reverse_audio: bool,
+
     #[arg(long, aliases = ["c:f", "cf"], default_value="rgb")]
     pub color_format: ColorFormat,
+
+    #[arg(long, aliases = ["r:v", "rv"])]
+    pub reverse_video: bool,
 
     #[arg(long, aliases = ["res"], default_value="256x144", value_parser = validate_resolution)]
     pub resolution: (u32, u32)
 }
 
-// Validates the given path by making sure it's valid, exists and isn't a folder.
-// Also returns the last valid path if the given one is invalid because I'm so based and UX coded.
+/// Validates the given path by making sure it's valid, exists and isn't a folder.
+/// Also returns the last valid path if the given one is invalid because I'm so based and UX coded.
 fn validate_input_path(s: &str) -> Result<PathBuf, String> {
 
     let path = PathBuf::from_str(s)
@@ -117,7 +122,7 @@ fn validate_input_path(s: &str) -> Result<PathBuf, String> {
     Ok(abs_path)
 }
 
-// Validates the resolution by splitting into width and height and then coverting to u32 and blablabla blebleble.
+/// Validates the resolution by splitting into width and height and then coverting to u32 and blablabla blebleble.
 fn validate_resolution(s: &str) -> Result<(u32, u32), String> {
     let resolution = s.split_once(&['x', 'X'][..]).ok_or("Resolution must be in format widthxheight, where width and height are integer values.")?;
 

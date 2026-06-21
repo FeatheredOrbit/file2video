@@ -10,7 +10,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
     let mut formatted_bytes: Vec<f64> = match args.sample_format {
 
         SampleFormat::U8 => {
-            bytes.iter().map(|&byte| { f64::from_sample(u8::from_be_bytes([byte])) }).collect()
+            bytes.iter().map(|&byte| { f64::from_sample(byte) }).collect()
         }
 
         SampleFormat::U16 => {

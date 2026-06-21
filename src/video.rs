@@ -51,10 +51,7 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Resul
     command.overwrite();
     command.output(parent_folder.join(output_file_name).as_os_str().to_string_lossy());
 
-    
-    for event in command.spawn()?.iter()?.filter_errors() {
-        println!("{:?}", event);
-    }
+    command.spawn()?.wait()?;
 
     // Remove the temporary files and then exit.
     remove_file(temp_audio_file_path)?;
