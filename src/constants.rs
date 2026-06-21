@@ -1,0 +1,1 @@
+pub const NORMALIZED_SAMPLE_RATE: usize = 48000;

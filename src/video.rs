@@ -1,6 +1,6 @@
 use std::{env::temp_dir, error::Error, fs::{File, remove_file}, io::Write};
 
-use crate::args::Args;
+use crate::{args::Args, constants::NORMALIZED_SAMPLE_RATE};
 
 pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Result<(), Box<dyn Error>> {
 
@@ -40,7 +40,7 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Resul
     // Audio stuff.
     command.format("f64le");
     command.args(["-ac", &args.channels.to_string()]);
-    command.args(["-ar", &args.sample_rate.to_string()]);
+    command.args(["-ar", &NORMALIZED_SAMPLE_RATE.to_string()]);
     command.input(temp_audio_file_path.as_os_str().to_string_lossy());
 
     // Idk stuff.

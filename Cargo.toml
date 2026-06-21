@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+ardftsrc = { version = "0.0.15", features = ["rayon"] }
 clap = { version = "4.6.1", features = ["derive"] }
 dasp_sample = "0.11.0"
 ffmpeg-sidecar = "2.5.2"

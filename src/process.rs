@@ -6,7 +6,7 @@ pub fn process(args: Args) -> Result<(), Box<dyn Error>> {
 
     let bytes = to_bytes(&args);
 
-    let audio_bytes = audio::process(&args, &bytes);
+    let audio_bytes = audio::process(&args, &bytes)?;
     let color_bytes = colors::process(&args, &bytes);
 
     video::process(&args, color_bytes, audio_bytes)

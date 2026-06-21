@@ -1,10 +1,13 @@
-use crate::args::{Args, Endianness, SampleFormat};
+use std::error::Error;
+
+use crate::{args::{Args, Endianness, SampleFormat}, constants::NORMALIZED_SAMPLE_RATE};
+use ardftsrc::{InterleavedResampler, PRESET_HIGH};
 use dasp_sample::Sample;
 
-pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
+pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> {
 
-    // Bitcast to chosen format and then normalize to f64, idk if even half of these are actual formats used in music but why not use them anyway.
-    let mut resampled_bytes: Vec<f64> = match args.sample_format {
+    // Bitcast to chosen format and then normalize to f64, idk if even half of these are actual formats used in audio but why not use them anyway.
+    let mut formatted_bytes: Vec<f64> = match args.sample_format {
 
         SampleFormat::U8 => {
             bytes.iter().map(|&byte| { f64::from_sample(u8::from_be_bytes([byte])) }).collect()
@@ -521,10 +524,20 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
     };
 
     // Pad the last frame so that there's enough values for all channels.
-    let remainder_frames = resampled_bytes.len() % args.channels as usize;
+    let remainder_frames = formatted_bytes.len() % args.channels as usize;
     let padding = args.channels as usize - remainder_frames;
 
-    resampled_bytes.resize(resampled_bytes.len() + padding, 0.0);
+    formatted_bytes.resize(formatted_bytes.len() + padding, 0.0);
 
-    resampled_bytes.iter().flat_map(|&f| f.to_le_bytes()).collect()
+    // Normalize sample rate to 48000. Also I don't think I really need this high of quality for such bs but why not?
+    let config = PRESET_HIGH
+        .with_input_rate(args.sample_rate as usize)
+        .with_output_rate(NORMALIZED_SAMPLE_RATE)
+        .with_channels(args.channels as usize);
+
+    let mut resampler = InterleavedResampler::<f64>::new(config)?;
+
+    let output = resampler.process_all(&formatted_bytes)?;
+
+    Ok(output.interleave().into_iter().flat_map(|f| f.to_le_bytes() ).collect())
 }

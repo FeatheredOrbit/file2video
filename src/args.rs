@@ -59,7 +59,7 @@ pub struct Args {
     #[arg(long, default_value_t = 44100)]
     pub sample_rate: u32,
 
-    #[arg(long, default_value_t = 2, value_parser = clap::value_parser!(u8).range(1..=2))]
+    #[arg(long, default_value_t = 2, value_parser = clap::value_parser!(u8).range(1..=8))]
     pub channels: u8,
 
     #[arg(long, default_value="rgb")]

@@ -5,6 +5,7 @@ mod process;
 mod audio;
 mod colors;
 mod video;
+mod constants;
 
 use args::Args;
 
@@ -13,6 +14,7 @@ fn main() {
 
     let args = Args::parse();
 
+    // Eventually I'll handle errors.
     let _ = process::process(args);
 
 }
