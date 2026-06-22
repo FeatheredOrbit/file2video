@@ -126,7 +126,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
     };
 
     // Since reversing straight up also changes the order of the color channels then the color looks wrong, so to fix it I have to reverse the vector
-    // and then the individual chunks, so that way the pixels are swapped but not the colors.
+    // while retaining the order of the channels within the pixels, so that way the pixels are reversed but not the colors.
     if args.reverse_video { 
         colors = colors.rchunks_exact(3).flatten().copied().collect();
     }

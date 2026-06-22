@@ -133,6 +133,14 @@ fn validate_resolution(s: &str) -> Result<(u32, u32), String> {
        return Err("Width and height must be even integers".to_string()); 
     }
 
+    if width < 16 || height < 16 {
+        return Err("Width and height can't be smaller than 16".to_string());
+    }
+
+    if width > 4096 || height > 4096 {
+        return Err("Width and height can't be higher than 4096".to_string());
+    }
+
     Ok((width, height))
 
 }

@@ -1,10 +1,8 @@
-use std::error::Error;
-
-use crate::{args::{Args, Endianness, SampleFormat}, constants::NORMALIZED_SAMPLE_RATE};
-use ardftsrc::{InterleavedResampler, PRESET_HIGH};
+use crate::{args::{Args, Endianness, SampleFormat}, misc::NORMALIZED_SAMPLE_RATE};
+use ardftsrc::{InterleavedResampler, PRESET_EXTREME};
 use dasp_sample::Sample;
 
-pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> {
+pub fn process(args: &Args, bytes: &Vec<u8>) -> crate::misc::Result<Vec<u8>> {
 
     // Bitcast to chosen format and then normalize to f64, idk if even half of these are actual formats used in audio but why not use them anyway.
     let mut formatted_bytes: Vec<f64> = match args.sample_format {
@@ -532,8 +530,8 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error>> 
 
     formatted_bytes.resize(formatted_bytes.len() + padding, 0.0);
 
-    // Normalize sample rate to 48000. Also I don't think I really need this high of quality for such bs but why not?
-    let config = PRESET_HIGH
+    // Normalize sample rate to 48000. Also I don't think I really need this high of quality for such caca but why not?
+    let config = PRESET_EXTREME
         .with_input_rate(args.sample_rate as usize)
         .with_output_rate(NORMALIZED_SAMPLE_RATE)
         .with_channels(args.channels as usize);

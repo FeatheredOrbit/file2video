@@ -5,7 +5,7 @@ mod process;
 mod audio;
 mod colors;
 mod video;
-mod constants;
+mod misc;
 
 use args::Args;
 
@@ -28,6 +28,6 @@ fn main() {
 
     }
 
-    println!("File successfully converted!");
+    println!("File successfully converted! 👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍");
 
 }

@@ -1,8 +1,8 @@
-use std::{env::temp_dir, error::Error, fs::{File, remove_file}, io::Write};
+use std::{env::temp_dir, fs::{File, remove_file}, io::Write};
 
-use crate::{args::Args, constants::NORMALIZED_SAMPLE_RATE};
+use crate::{args::Args, misc::NORMALIZED_SAMPLE_RATE};
 
-pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Result<(), Box<dyn Error>> {
+pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> crate::misc::Result<()> {
 
     let temp_dir = temp_dir();
 
@@ -10,15 +10,15 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Resul
     let temp_pixel_file_path = temp_dir.join("feathered-orbit-file2video.pixels");
 
     // Create temporary files and dump the bytes into them.
-    let mut temp_audio_file = File::create(temp_audio_file_path.clone())?;
-    temp_audio_file.write_all(&audio_bytes)?;
+    let mut temp_audio_file = File::create(temp_audio_file_path.clone()).map_err(|_| "Failed to create temporary audio file.")?;
+    temp_audio_file.write_all(&audio_bytes).map_err(|_| "Failed to write to temporary audio file.")?;
 
-    let mut temp_video_file = File::create(temp_pixel_file_path.clone())?;
-    temp_video_file.write_all(&pixel_bytes)?;
+    let mut temp_video_file = File::create(temp_pixel_file_path.clone()).map_err(|_| "Failed to create temporary pixel file.")?;
+    temp_video_file.write_all(&pixel_bytes).map_err(|_| "Failed to write to temporary pixel file.")?;
 
-    let parent_folder = args.input_file.parent().ok_or("Failed to access parent folder")?;
+    let parent_folder = args.input_file.parent().ok_or("Failed to access parent folder.")?;
 
-    // Unwrapping file_name() should be fine as files can't not have names (at least Google says so), 
+    // Unwrapping file_name should be fine as files can't not have names (at least Google says so), 
     // and it's already validated at the start if the path leads to a file. 
     let output_file_name = format!("video_version_of_{}.mp4", args.input_file.file_name().unwrap().to_string_lossy());
 
@@ -36,26 +36,27 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> Resul
     command.pix_fmt("rgb24");
     command.size(args.resolution.0, args.resolution.1);
     command.rate(fps as f32);
-    command.input(temp_pixel_file_path.as_os_str().to_string_lossy());
+    command.input(temp_pixel_file_path.to_string_lossy());
 
     // Audio stuff.
     command.format("f64le");
     command.args(["-ac", &args.channels.to_string()]);
     command.args(["-ar", &NORMALIZED_SAMPLE_RATE.to_string()]);
-    command.input(temp_audio_file_path.as_os_str().to_string_lossy());
+    command.input(temp_audio_file_path.to_string_lossy());
 
     // Idk stuff.
     command.codec_video("libx264");
     command.pix_fmt("yuv420p");
     command.codec_audio("aac");
     command.overwrite();
-    command.output(parent_folder.join(output_file_name).as_os_str().to_string_lossy());
+    command.output(parent_folder.join(output_file_name).to_string_lossy());
 
-    command.spawn()?.wait()?;
+    command.spawn().map_err(|_| "An error has accured while trying to execute ffmpeg, which is encodes the video. Please make sure that it is installed and on PATH.")?
+        .wait().map_err(|_| "Ffmpeg, which is what encodes the video, exited abnormally. I have no idea what would cause this to happen so you are on your own honestly.")?;
 
     // Remove the temporary files and then exit.
-    remove_file(temp_audio_file_path)?;
-    remove_file(temp_pixel_file_path)?;
+    remove_file(temp_audio_file_path).map_err(|_| "Failed to remove temporary audio file. It might have been deleted already, or if not, you are free to delete it yourself. 👍")?;
+    remove_file(temp_pixel_file_path).map_err(|_| "Failed to remove temporary pixel file. It might have been deleted already, or if not, you are free to delete it yourself. 👍")?;
 
     Ok(())
 }
