@@ -125,8 +125,19 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
         }
     };
 
-    // Reverse the video.
-    if args.reverse_video { colors.reverse(); }
+    // Since reversing straight up also changes the order of the color channels then the color looks wrong, so to fix it I have to reverse the vector
+    // and then the individual chunks, so that way the pixels are swapped but not the colors. Idk if theres a easier way to do it but it works so who cares.
+    if args.reverse_video { 
+        colors.reverse();
+
+        colors = colors.chunks_exact(3).flat_map(|chunk| {
+            [
+                chunk[2],
+                chunk[1],
+                chunk[0]
+            ]
+        }).collect();
+    }
 
     let resolution = args.resolution.0 as usize * args.resolution.1 as usize;
     let channels_per_frame = resolution * 3;
