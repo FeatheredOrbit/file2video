@@ -102,7 +102,7 @@ fn validate_input_path(s: &str) -> Result<PathBuf, String> {
 
                 if last_valid_path.as_os_str().is_empty() {
                     return Err(
-                        "Path doesn't exist. Root is invalid.".to_string()
+                        "Path doesn't exist.".to_string()
                     );
                 }
 
