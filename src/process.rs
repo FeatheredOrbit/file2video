@@ -4,8 +4,15 @@ pub fn process(args: Args) -> crate::misc::Result<()> {
 
     let bytes = to_bytes(&args)?;
 
+    println!("Read bytes of file ...");
+
     let audio_bytes = audio::process(&args, &bytes)?;
+
+    println!("Interpreted bytes as audio ...");
+
     let color_bytes = colors::process(&args, &bytes);
+
+    println!("Interpreted bytes as color ...");
 
     video::process(&args, color_bytes, audio_bytes)
 
