@@ -46,7 +46,7 @@ The paired value must be an integer and can't be negative.
 ```bash
 file2video path/to/file --sample-rate 96000
 ```
-
+---
 - `--sample-format` / `--s:f` : Allows you to choose what format will be chosen to interpret the stream as. There are many formats to choose from, shown below:
 
 <div style="display: flex; justify-content: center;">
@@ -83,13 +83,13 @@ file2video path/to/file --sample-rate 96000
 ```bash
 file2video path/to/file --sample-format u32
 ```
-
+---
 - `--channels` / `--ch` : Allows you to set the channels used for the audio stream. The paired value must be an integer between 1 and 8.
 
 ```bash
 file2video /path/to/file --channels 4
 ```
-
+---
 - `--color-format` / `--c:f` : Allows you to set the color format to use for the video stream.
 
 <div style="display: flex; justify-content: center;">
@@ -113,7 +113,7 @@ file2video /path/to/file --channels 4
 ```bash
 file2video path/to/file --color-format yuv
 ```
-
+---
 - `--resolution` / `--res` : Allows you to set the resolution for the frames of the video stream. The value must be in format `widthxheight`, `width` and `height` are even integers between 16 and 4096.
 
 ```bash
