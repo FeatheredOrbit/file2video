@@ -130,6 +130,6 @@ There are also additional flags, such as:
 
 - `--swap-bytes-video` / `--sb:v` : Adding this flag will swap the color channels of each pixel around, changing how the color is presented.
 
-- `--swap-bytes-audio` / `--sb:a` : Adding this flag will swap the order of how bytes are used to create higher bitdepth formats. For example, a u32 would be built in this order `[byte1, byte2, byte3, byte4]`, but by adding this flag it will instead be built like this `[byte4, byte3, byte2, byte1]`.
+- `--swap-bytes-audio` / `--sb:a` : Adding this flag will swap the order of how bytes are used to create higher bitdepth formats. For example, a u32 would normally be built in this order `[byte1, byte2, byte3, byte4]`, but by adding this flag it will instead be built like this `[byte4, byte3, byte2, byte1]`.
 
 
