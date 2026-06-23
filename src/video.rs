@@ -18,10 +18,6 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> crate
 
     let parent_folder = args.input_file.parent().ok_or("Failed to access parent folder.")?;
 
-    // Unwrapping file_name should be fine as files always have names (at least Google says so),
-    // and it's already validated at the start if the path leads to a file. 
-    let output_file_name = format!("video_version_of_{}.mp4", args.input_file.file_name().unwrap().to_string_lossy());
-
     let total_samples = (audio_bytes.len() / size_of::<f64>()) as f64;
     let audio_duration = total_samples / NORMALIZED_SAMPLE_RATE as f64 / args.channels as f64;
 
@@ -49,7 +45,7 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> crate
     command.pix_fmt("yuv420p");
     command.codec_audio("aac");
     command.overwrite();
-    command.output(parent_folder.join(output_file_name).to_string_lossy());
+    command.output(parent_folder.join("output.mp4").to_string_lossy());
 
     command.spawn().map_err(|_| "An error has occurred while trying to execute FFmpeg, which is encodes the video. Please make sure that it is installed and on PATH.")?
         .wait().map_err(|_| "FFmpeg, which is what encodes the video, exited abnormally. I have no idea what would cause this to happen so you are on your own honestly.")?;

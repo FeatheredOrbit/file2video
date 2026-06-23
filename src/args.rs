@@ -79,7 +79,7 @@ pub struct Args {
     pub resolution: (u32, u32)
 }
 
-/// Validates the given path by making sure it's valid, exists and isn't a folder.
+/// Validates the given path by making sure it's valid, exists, and isn't a folder.
 /// Also returns the last valid path if the given one is invalid because I'm so based and UX coded.
 fn validate_input_path(s: &str) -> Result<PathBuf, String> {
 
