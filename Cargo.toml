@@ -2,6 +2,9 @@
 name = "file2video"
 version = "0.1.0"
 edition = "2024"
+description = "Turns any given file into a video by interpreting it as raw audio and video streams."
+license = "Apache-2.0"
+repository = "https://github.com/FeatheredOrbit/file2video.git"
 
 [dependencies]
 ardftsrc = { version = "0.0.15", features = ["rayon"] }
