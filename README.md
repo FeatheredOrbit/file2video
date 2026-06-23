@@ -19,7 +19,7 @@ The easiest way to install would be via Cargo:
 
 
     
-## Usage and flags
+## Usage
 
 A basic use of the tool would look like this:
 
@@ -38,7 +38,8 @@ But of course it doesn't stop there! A use such as the example above will take u
 - RGB for color format.
 - 256 by 144 pixels for frame resolution.
 
-And all of these can be ovveridden using different flags!
+## Flags
+Naturally you can override the defaults using different flags!
 
 - `--sample-rate` / `--s:r` : Allows you to choose the sample rate of the audio stream. The stream is normalized to 44.1kHz, meaning higher sample rates will result in faster audio, and smaller sample rates will result in slower audio.
 The paired value must be an integer and can't be negative.
@@ -114,7 +115,7 @@ file2video /path/to/file --channels 4
 file2video path/to/file --color-format yuv
 ```
 ---
-- `--resolution` / `--res` : Allows you to set the resolution for the frames of the video stream. The value must be in format `widthxheight`, `width` and `height` are even integers between 16 and 4096.
+- `--resolution` / `--res` : Allows you to set the resolution for the frames of the video stream. The value must be in format `widthxheight`, where `width` and `height` are even integers between 16 and 4096.
 
 ```bash
 file2video path/to/file --resolution 150x150
@@ -131,5 +132,13 @@ There are also additional flags, such as:
 - `--swap-bytes-video` / `--sb:v` : Adding this flag will swap the color channels of each pixel around, changing how the color is presented.
 
 - `--swap-bytes-audio` / `--sb:a` : Adding this flag will swap the order of how bytes are used to create higher bitdepth formats. For example, a u32 would normally be built in this order `[byte1, byte2, byte3, byte4]`, but by adding this flag it will instead be built like this `[byte4, byte3, byte2, byte1]`.
+
+## Help
+
+Naturally I don't expect people to just memorize all of these options, this is why it is also possible to use the following flag:
+```bash
+file2video --help
+```
+This flag will display every flag used by my tool, including the values paired with the flag.
 
 
