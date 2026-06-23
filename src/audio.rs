@@ -4,7 +4,7 @@ use dasp_sample::Sample;
 
 pub fn process(args: &Args, bytes: &Vec<u8>) -> crate::misc::Result<Vec<u8>> {
 
-    // Bitcast to chosen format and then normalize to f64, idk if even half of these are actual formats used in audio but why not use them anyway.
+    // Bit-cast to chosen format and then normalize to f64, idk if even half of these are actual formats used in audio but why not use them anyway.
     let mut formatted_bytes: Vec<f64> = match args.sample_format {
 
         SampleFormat::U8 => {
@@ -459,7 +459,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> crate::misc::Result<Vec<u8>> {
                     as_f32 = f32::from_bits(as_u32);
                 }
 
-                // Normalize into -1 to 1 range because otherwise ffmpeg rips you to shreds.
+                // Normalize into -1 to 1 range because otherwise FFmpeg rips you to shreds.
                 f64::from_sample((as_f32 / f32::MAX * 2.0) - 1.0)
                 
             }).collect()
@@ -514,7 +514,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> crate::misc::Result<Vec<u8>> {
                     as_f64 = f64::from_bits(as_u64);
                 }
 
-                // Normalize into -1 to 1 range because otherwise ffmpeg rips you to shreds.
+                // Normalize into -1 to 1 range because otherwise FFmpeg rips you to shreds.
                 (as_f64 / f64::MAX * 2.0) - 1.0
             }).collect()
         }
@@ -530,7 +530,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> crate::misc::Result<Vec<u8>> {
 
     formatted_bytes.resize(formatted_bytes.len() + padding, 0.0);
 
-    // Normalize sample rate to 48000. Also I don't think I really need this high of quality for such caca but why not?
+    // Normalize sample rate to 48000. Also, I don't think I really need this high of quality for such caca but why not?
     let config = PRESET_EXTREME
         .with_input_rate(args.sample_rate as usize)
         .with_output_rate(NORMALIZED_SAMPLE_RATE)

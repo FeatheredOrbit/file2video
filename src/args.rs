@@ -122,7 +122,7 @@ fn validate_input_path(s: &str) -> Result<PathBuf, String> {
     Ok(abs_path)
 }
 
-/// Validates the resolution by splitting into width and height and then coverting to u32 and blablabla blebleble.
+/// Validates the resolution by splitting into width and height and then converting to u32 and blablabla blebleble.
 fn validate_resolution(s: &str) -> Result<(u32, u32), String> {
     let resolution = s.split_once(&['x', 'X'][..]).ok_or("Resolution must be in format widthxheight, where width and height are integer values.")?;
 

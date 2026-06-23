@@ -13,7 +13,7 @@ fn main() {
     if let Err(_) = ffmpeg_sidecar::download::auto_download() {
         Args::command().error(
         clap::error::ErrorKind::Io, 
-        "An error has occurred while trying to install ffmpeg (which is required to encode the video blablabla). Please check your internet connection, or maybe just install the library yourself. Have fun!."
+        "An error has occurred while trying to install FFmpeg (which is required to encode the video blablabla). Please check your internet connection, or maybe just install the library yourself. Have fun!."
         ).exit();
     }
 

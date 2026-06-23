@@ -2,7 +2,7 @@ use crate::args::{Args, ColorFormat};
 
 pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
 
-    // Interpret bytes as different color formats, then normalize to RGB. WHy are there so many color formats.
+    // Interpret bytes as different color formats, then normalize to RGB. WHY are there so many color formats.
     let mut colors: Vec<u8> = match args.color_format {
         ColorFormat::Rgb => {
 
@@ -126,7 +126,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
     };
 
     // Since reversing straight up also changes the order of the color channels then the color looks wrong, so to fix it I have to reverse the vector
-    // while retaining the order of the channels within the pixels, so that way the pixels are reversed but not the colors.
+    // while retaining the order of the channels within the pixels.
     if args.reverse_video { 
         colors = colors.rchunks_exact(3).flatten().copied().collect();
     }

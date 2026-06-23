@@ -18,7 +18,7 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> crate
 
     let parent_folder = args.input_file.parent().ok_or("Failed to access parent folder.")?;
 
-    // Unwrapping file_name should be fine as files can't not have names (at least Google says so), 
+    // Unwrapping file_name should be fine as files always have names (at least Google says so),
     // and it's already validated at the start if the path leads to a file. 
     let output_file_name = format!("video_version_of_{}.mp4", args.input_file.file_name().unwrap().to_string_lossy());
 
@@ -51,8 +51,8 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> crate
     command.overwrite();
     command.output(parent_folder.join(output_file_name).to_string_lossy());
 
-    command.spawn().map_err(|_| "An error has accured while trying to execute ffmpeg, which is encodes the video. Please make sure that it is installed and on PATH.")?
-        .wait().map_err(|_| "Ffmpeg, which is what encodes the video, exited abnormally. I have no idea what would cause this to happen so you are on your own honestly.")?;
+    command.spawn().map_err(|_| "An error has occurred while trying to execute FFmpeg, which is encodes the video. Please make sure that it is installed and on PATH.")?
+        .wait().map_err(|_| "FFmpeg, which is what encodes the video, exited abnormally. I have no idea what would cause this to happen so you are on your own honestly.")?;
 
     // Remove the temporary files and then exit.
     remove_file(temp_audio_file_path).map_err(|_| "Failed to remove temporary audio file. It might have been deleted already, or if not, you are free to delete it yourself. 👍")?;
