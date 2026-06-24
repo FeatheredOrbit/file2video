@@ -16,23 +16,15 @@ The easiest way to install is via Cargo:
   cargo install file2video
 ```
 
-You can also install from source by cloning the repository (this required Git to be installed):
+Or you can also build and install from source using the following commands (This also requires Rust and Cargo):
 
 ```bash
   git clone https://github.com/FeatheredOrbit/file2video.git
-```
-
-Moving into the created directory:
-
-```bash
   cd file2video
-```
-
-And building the executable (this also required Rust and Cargo to be installed):
-
-```bash
   cargo build --release
 ```
+
+Using this method though will require you to add the executable to PATH manually.
 
 ## Usage
 
