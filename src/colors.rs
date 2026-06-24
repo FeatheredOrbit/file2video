@@ -1,12 +1,18 @@
 use crate::args::{Args, ColorFormat};
 
 pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
-
     // Interpret bytes as different color formats, then normalize to RGB. WHY are there so many color formats.
     let mut colors: Vec<u8> = match args.color_format {
         ColorFormat::Rgb => {
 
-            bytes.chunks_exact(3).flatten().copied().collect()
+            bytes.chunks_exact(3).flat_map(|chunk| {
+                let mut chunk = chunk.to_vec();
+
+                if args.reverse_bytes_video { chunk.reverse(); }
+
+                chunk
+
+            }).collect()
 
         }
 
@@ -14,6 +20,9 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
 
             // All the formula was gotten from Google and I just converted it who even knows what is HSL.
             bytes.chunks_exact(3).flat_map(|chunk| {
+                let mut chunk = chunk.to_vec();
+
+                if args.reverse_bytes_video { chunk.reverse(); }
 
                 let hue = chunk[0] as f32 * (360.0 / 255.0);
                 let saturation = chunk[1] as f32 / u8::MAX as f32;
@@ -52,6 +61,9 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
 
             // This was also gotten from Google and I converted to code.
             bytes.chunks_exact(3).flat_map(|chunk| {
+                let mut chunk = chunk.to_vec();
+
+                if args.reverse_bytes_video { chunk.reverse(); }
 
                 let hue = chunk[0] as f32 * (360.0 / 255.0);
                 let saturation = chunk[1] as f32 / u8::MAX as f32;
@@ -87,6 +99,9 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
 
         ColorFormat::Yuv => {
             bytes.chunks_exact(3).flat_map(|chunk| {
+                let mut chunk = chunk.to_vec();
+
+                if args.reverse_bytes_video { chunk.reverse(); }
 
                 let luminance = chunk[0] as f32;
                 let blue_factor = chunk[1] as f32;
@@ -106,6 +121,9 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
 
         ColorFormat::Ycbcr => {
             bytes.chunks_exact(3).flat_map(|chunk| {
+                let mut chunk = chunk.to_vec();
+
+                if args.reverse_bytes_video { chunk.reverse(); }
 
                 let luminance = chunk[0] as f32;
                 let blue_difference = chunk[1] as f32;

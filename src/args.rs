@@ -2,13 +2,6 @@ use std::path::PathBuf;
 use std::str::FromStr;
 use clap::{Parser, ValueEnum};
 
-/// Idk how to spell it.
-#[derive(ValueEnum, Clone, Debug)]
-pub enum Endianness {
-    Little,
-    Big
-}
-
 #[derive(ValueEnum, Clone, Debug)]
 pub enum SampleFormat {
     U8,
@@ -63,17 +56,20 @@ pub struct Args {
     #[arg(long, aliases = ["ch"], default_value_t = 2, value_parser = clap::value_parser!(u8).range(1..=8))]
     pub channels: u8,
 
-    #[arg(long, aliases = ["e:a"], default_value = "little")]
-    pub endianness_audio: Endianness,
-
     #[arg(long, aliases = ["r:a"])]
     pub reverse_audio: bool,
+
+    #[arg(long, aliases = ["rb:a"])]
+    pub reverse_bytes_audio: bool,
 
     #[arg(long, aliases = ["c:f"], default_value="rgb")]
     pub color_format: ColorFormat,
 
     #[arg(long, aliases = ["r:v"])]
     pub reverse_video: bool,
+
+    #[arg(long, aliases = ["rb:v"])]
+    pub reverse_bytes_video: bool,
 
     #[arg(long, aliases = ["res"], default_value="256x144", value_parser = validate_resolution)]
     pub resolution: (u32, u32)
