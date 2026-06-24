@@ -82,6 +82,7 @@ fn validate_input_path(s: &str) -> Result<PathBuf, String> {
     let path = PathBuf::from_str(s)
         .map_err(|_| { "Not a path." })?;
 
+    // Abs👀👀🤤🤤🤤🤤🤤🤤🤤🤤🤤
     let abs_path = std::path::absolute(path)
         .map_err(|_| { "Failed to resolve absolute path." })?;
 
