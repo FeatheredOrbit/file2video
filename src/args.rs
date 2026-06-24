@@ -39,7 +39,7 @@ pub enum ColorFormat {
 #[command(
     name = "file2video",
     author = "Feathered Orbit",
-    version = "1.1.1",
+    version = "1.1.2",
     about = "A terminal tool capable of turning any given file into a video by using it to build raw audio and video streams."
 )]
 pub struct Args {
