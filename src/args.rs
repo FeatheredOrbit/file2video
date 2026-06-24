@@ -37,10 +37,10 @@ pub enum ColorFormat {
 
 #[derive(Parser, Debug)]
 #[command(
-    name="file2video",
-    author="Feathered Orbit",
-    version="1.0",
-    about="Converts any file to a video by interpreting its data as audio and video frames"
+    name = "file2video",
+    author = "Feathered Orbit",
+    version = "1.1.0",
+    about = "A terminal tool capable of turning any given file into a video by using it to build raw audio and video streams."
 )]
 pub struct Args {
 
