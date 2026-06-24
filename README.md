@@ -129,9 +129,9 @@ There are also additional flags, such as:
 
 - `--reverse-audio` / `--r:a` : Adding this flag will swap the order of the samples in the audio stream, making the audio play backwards.
 
-- `--reverse-bytes-video` / `--sb:v` : Adding this flag will swap the color channels of each pixel around, changing how the color is presented.
+- `--reverse-bytes-video` / `--rb:v` : Adding this flag will swap the color channels of each pixel around, changing how the color is presented.
 
-- `--reverse-bytes-audio` / `--sb:a` : Adding this flag will swap the order of how bytes are used to create higher bitdepth formats. For example, a u32 would normally be built in this order `[byte1, byte2, byte3, byte4]`, but by adding this flag it will instead be built like this `[byte4, byte3, byte2, byte1]`.
+- `--reverse-bytes-audio` / `--rb:a` : Adding this flag will swap the order of how bytes are used to create higher bitdepth formats. For example, a u32 would normally be built in this order `[byte1, byte2, byte3, byte4]`, but by adding this flag it will instead be built like this `[byte4, byte3, byte2, byte1]`.
 
 ## Help
 
@@ -139,6 +139,6 @@ All of the above shown flags, including what arguments can be passed to them, ca
 ```bash
 file2video --help
 ```
-Like this you won't need to come back here everytime. 👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍👍
+Like this you won't need to come back here everytime! 👍👍👍
 
 
