@@ -353,7 +353,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> crate::misc::Result<Vec<u8>> {
 
     formatted_bytes.resize(formatted_bytes.len() + padding, 0.0);
 
-    // Normalize sample rate to 48000. Also, I don't think I really need this high of quality for such caca but why not?
+    // Normalize sample rate to 44100. Also, I don't think I really need this high of quality for such doodoo but why not?
     let config = PRESET_EXTREME
         .with_input_rate(args.sample_rate as usize)
         .with_output_rate(NORMALIZED_SAMPLE_RATE)
