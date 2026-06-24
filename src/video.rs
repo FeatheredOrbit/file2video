@@ -47,7 +47,7 @@ pub fn process(args: &Args, pixel_bytes: Vec<u8>, audio_bytes: Vec<u8>) -> crate
     command.overwrite();
     command.output(parent_folder.join("output.mp4").to_string_lossy());
 
-    command.spawn().map_err(|_| "An error has occurred while trying to execute FFmpeg, which is encodes the video. Please make sure that it is installed and on PATH.")?
+    command.spawn().map_err(|_| "An error has occurred while trying to execute FFmpeg, which is what encodes the video. Please make sure that it is installed and on PATH.")?
         .wait().map_err(|_| "FFmpeg, which is what encodes the video, exited abnormally. I have no idea what would cause this to happen so you are on your own honestly.")?;
 
     // Remove the temporary files and then exit.
