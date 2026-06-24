@@ -149,6 +149,7 @@ pub fn process(args: &Args, bytes: &Vec<u8>) -> Vec<u8> {
         colors = colors.rchunks_exact(3).flatten().copied().collect();
     }
 
+    // Pad the last frame so that there are enough enough pixels for that frame at the given resolution.
     let resolution = args.resolution.0 as usize * args.resolution.1 as usize;
     let channels_per_frame = resolution * 3;
 
